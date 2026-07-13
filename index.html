@@ -4,213 +4,178 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sklep Galeria</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap');
-        
-        body { font-family: 'Inter', system-ui, sans-serif; }
-        .header-font { font-family: 'Playfair Display', sans-serif; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        .product-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f1e, #1a1a2e);
+            color: #eee;
+            min-height: 100vh;
         }
-        .product-card:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+        /* Górny pasek */
+        header {
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1.2rem 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
-        .hero-bg {
-            background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url('https://picsum.photos/id/1015/2000/800') center/cover no-repeat;
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+
+        .koczkodan {
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .koczkodan:hover {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        /* Główna galeria */
+        main {
+            padding: 3rem 5%;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 1rem 0;
+        }
+
+        /* Karta produktu */
+        .product {
+            background: #16213e;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .product:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .product img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product:hover img {
+            transform: scale(1.08);
+        }
+
+        .info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .info h3 {
+            margin-bottom: 0.8rem;
+            font-size: 1.4rem;
+            color: #fff;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #00ff9d;
+            margin: 0.5rem 0;
+        }
+
+        /* Responsywność */
+        @media (max-width: 1200px) {
+            .gallery { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .gallery { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 480px) {
+            .gallery { grid-template-columns: 1fr; }
         }
     </style>
 </head>
-<body class="bg-gray-50">
-
-    <!-- Navbar -->
-    <nav class="bg-white border-b sticky top-0 z-50 shadow-sm">
-        <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-pink-500 rounded-2xl flex items-center justify-center text-white text-2xl">🛍️</div>
-                <div>
-                    <h1 class="header-font text-3xl font-bold tracking-tight text-gray-900">Sklep Galeria</h1>
-                    <p class="text-xs text-gray-500 -mt-1">Biżuteria • Delikatność • Styl</p>
-                </div>
-            </div>
-            
-            <div class="flex items-center gap-8 text-sm">
-                <a href="#" class="hover:text-purple-600 transition-colors font-medium">Wszystkie</a>
-                <a href="#" class="hover:text-purple-600 transition-colors font-medium">Naszyjniki</a>
-                <a href="#" class="hover:text-purple-600 transition-colors font-medium">Kolczyki</a>
-                <a href="#" class="hover:text-purple-600 transition-colors font-medium">Pierścionki</a>
-                <a href="#" class="hover:text-purple-600 transition-colors font-medium">Bransoletki</a>
-            </div>
-
-            <div class="flex items-center gap-6">
-                <button class="text-gray-700 hover:text-black"><i class="fa-solid fa-magnifying-glass text-xl"></i></button>
-                <button class="text-gray-700 hover:text-black"><i class="fa-solid fa-heart text-xl"></i></button>
-                <button class="text-gray-700 hover:text-black relative">
-                    <i class="fa-solid fa-bag-shopping text-xl"></i>
-                    <span class="absolute -top-1 -right-1 bg-purple-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
-                </button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero -->
-    <header class="hero-bg h-[420px] flex items-center text-white">
-        <div class="max-w-4xl mx-auto text-center px-6">
-            <h2 class="text-6xl header-font font-bold mb-4 tracking-tighter">Biżuteria, która opowiada historie</h2>
-            <p class="text-xl max-w-md mx-auto opacity-90">Delikatne detale • Ponadczasowa elegancja</p>
-        </div>
+<body>
+    <header>
+        <div class="logo">Sklep Galeria</div>
+        <div class="koczkodan" title="Kliknij mnie!">🐵</div>
     </header>
 
-    <!-- Products Grid -->
-    <section class="max-w-7xl mx-auto px-6 py-16">
-        <h2 class="text-4xl header-font font-semibold tracking-tight mb-10">Kolekcja biżuterii</h2>
-
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
-
-            <!-- Produkt 1 (Twój lokalny plik) -->
-            <div class="product-card bg-white rounded-3xl overflow-hidden border border-gray-100">
-                <div class="aspect-square bg-gray-100 relative overflow-hidden">
-                    <img src="image1.png" alt="Produkt 1" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="p-5 text-center">
-                    <h3 class="font-medium text-lg text-gray-900">Lunar Whisper</h3>
-                    <p class="text-sm text-gray-500 mt-1">Naszyjnik z perłą i księżycowym kamieniem</p>
-                    <div class="mt-4 text-xl font-semibold">289 zł</div>
+    <main>
+        <h1 style="text-align: center; margin-bottom: 2.5rem; font-size: 2.8rem; color: #fff;">
+            Nasze produkty ✨
+        </h1>
+        
+        <div class="gallery">
+            <!-- Produkt 1 -->
+            <div class="product">
+                <img src="image1.png" alt="Eixuslnir Eixulsnir">
+                <div class="info">
+                    <h3>Eixuslnir Eixulsnir</h3>
+                    <div class="price">299 zł</div>
+                    <p style="color:#aaa; font-size:0.95rem;">Limitowana edycja • Bardzo kozackie</p>
                 </div>
             </div>
 
-            <!-- Kolejne produkty z picsum + wymyślone nazwy biżuterii -->
-            <div class="product-card bg-white rounded-3xl overflow-hidden border border-gray-100">
-                <div class="aspect-square bg-gray-100 relative overflow-hidden">
-                    <img src="https://picsum.photos/id/201/600/600" alt="Kolczyki" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="p-5 text-center">
-                    <h3 class="font-medium text-lg text-gray-900">Eternal Bloom</h3>
-                    <p class="text-sm text-gray-500 mt-1">Kolczyki z kwiatem wiśni</p>
-                    <div class="mt-4 text-xl font-semibold">159 zł</div>
+            <!-- Możesz dodawać kolejne produkty kopiując blok powyżej -->
+            <div class="product">
+                <img src="https://picsum.photos/id/1015/600/800" alt="Produkt 2">
+                <div class="info">
+                    <h3>Drugi produkt</h3>
+                    <div class="price">449 zł</div>
+                    <p style="color:#aaa; font-size:0.95rem;">Super jakość</p>
                 </div>
             </div>
 
-            <div class="product-card bg-white rounded-3xl overflow-hidden border border-gray-100">
-                <div class="aspect-square bg-gray-100 relative overflow-hidden">
-                    <img src="https://picsum.photos/id/237/600/600" alt="Pierścionek" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="p-5 text-center">
-                    <h3 class="font-medium text-lg text-gray-900">Midnight Solitaire</h3>
-                    <p class="text-sm text-gray-500 mt-1">Pierścionek z czarnym diamentem</p>
-                    <div class="mt-4 text-xl font-semibold">429 zł</div>
+            <div class="product">
+                <img src="https://picsum.photos/id/201/600/800" alt="Produkt 3">
+                <div class="info">
+                    <h3>Trzeci produkt</h3>
+                    <div class="price">199 zł</div>
+                    <p style="color:#aaa; font-size:0.95rem;">Hit sezonu</p>
                 </div>
             </div>
 
-            <div class="product-card bg-white rounded-3xl overflow-hidden border border-gray-100">
-                <div class="aspect-square bg-gray-100 relative overflow-hidden">
-                    <img src="https://picsum.photos/id/251/600/600" alt="Bransoletka" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="p-5 text-center">
-                    <h3 class="font-medium text-lg text-gray-900">Golden Veil</h3>
-                    <p class="text-sm text-gray-500 mt-1">Bransoletka z cienkich łańcuszków</p>
-                    <div class="mt-4 text-xl font-semibold">219 zł</div>
-                </div>
-            </div>
-
-            <div class="product-card bg-white rounded-3xl overflow-hidden border border-gray-100">
-                <div class="aspect-square bg-gray-100 relative overflow-hidden">
-                    <img src="https://picsum.photos/id/312/600/600" alt="Naszyjnik" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="p-5 text-center">
-                    <h3 class="font-medium text-lg text-gray-900">Celestial Thread</h3>
-                    <p class="text-sm text-gray-500 mt-1">Naszyjnik z gwiazdami i cyrkoniami</p>
-                    <div class="mt-4 text-xl font-semibold">275 zł</div>
-                </div>
-            </div>
-
-            <div class="product-card bg-white rounded-3xl overflow-hidden border border-gray-100">
-                <div class="aspect-square bg-gray-100 relative overflow-hidden">
-                    <img src="https://picsum.photos/id/367/600/600" alt="Kolczyki" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="p-5 text-center">
-                    <h3 class="font-medium text-lg text-gray-900">Rose Quartz Dream</h3>
-                    <p class="text-sm text-gray-500 mt-1">Kolczyki z różowego kwarcu</p>
-                    <div class="mt-4 text-xl font-semibold">179 zł</div>
-                </div>
-            </div>
-
-            <!-- Dodatkowe 6 produktów (pełny grid) -->
-            <div class="product-card bg-white rounded-3xl overflow-hidden border border-gray-100">
-                <div class="aspect-square bg-gray-100 relative overflow-hidden">
-                    <img src="https://picsum.photos/id/433/600/600" alt="Pierścionek" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="p-5 text-center">
-                    <h3 class="font-medium text-lg text-gray-900">Frostbite Ring</h3>
-                    <p class="text-sm text-gray-500 mt-1">Srebrny pierścionek z topazem</p>
-                    <div class="mt-4 text-xl font-semibold">245 zł</div>
-                </div>
-            </div>
-
-            <div class="product-card bg-white rounded-3xl overflow-hidden border border-gray-100">
-                <div class="aspect-square bg-gray-100 relative overflow-hidden">
-                    <img src="https://picsum.photos/id/488/600/600" alt="Naszyjnik" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="p-5 text-center">
-                    <h3 class="font-medium text-lg text-gray-900">Ocean Whisper</h3>
-                    <p class="text-sm text-gray-500 mt-1">Naszyjnik z muszelką i akwamarynem</p>
-                    <div class="mt-4 text-xl font-semibold">310 zł</div>
-                </div>
-            </div>
-
-            <div class="product-card bg-white rounded-3xl overflow-hidden border border-gray-100">
-                <div class="aspect-square bg-gray-100 relative overflow-hidden">
-                    <img src="https://picsum.photos/id/669/600/600" alt="Bransoletka" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="p-5 text-center">
-                    <h3 class="font-medium text-lg text-gray-900">Starlit Chain</h3>
-                    <p class="text-sm text-gray-500 mt-1">Delikatna bransoletka z gwiazdkami</p>
-                    <div class="mt-4 text-xl font-semibold">189 zł</div>
-                </div>
-            </div>
-
-            <div class="product-card bg-white rounded-3xl overflow-hidden border border-gray-100">
-                <div class="aspect-square bg-gray-100 relative overflow-hidden">
-                    <img src="https://picsum.photos/id/870/600/600" alt="Kolczyki" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="p-5 text-center">
-                    <h3 class="font-medium text-lg text-gray-900">Ember Drops</h3>
-                    <p class="text-sm text-gray-500 mt-1">Kolczyki z czerwonym granatem</p>
-                    <div class="mt-4 text-xl font-semibold">205 zł</div>
-                </div>
-            </div>
-
-            <div class="product-card bg-white rounded-3xl overflow-hidden border border-gray-100">
-                <div class="aspect-square bg-gray-100 relative overflow-hidden">
-                    <img src="https://picsum.photos/id/1015/600/600" alt="Naszyjnik" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="p-5 text-center">
-                    <h3 class="font-medium text-lg text-gray-900">Velvet Shadow</h3>
-                    <p class="text-sm text-gray-500 mt-1">Naszyjnik z czarnym onyksem</p>
-                    <div class="mt-4 text-xl font-semibold">265 zł</div>
-                </div>
-            </div>
-
-            <div class="product-card bg-white rounded-3xl overflow-hidden border border-gray-100">
-                <div class="aspect-square bg-gray-100 relative overflow-hidden">
-                    <img src="https://picsum.photos/id/106/600/600" alt="Pierścionek" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="p-5 text-center">
-                    <h3 class="font-medium text-lg text-gray-900">Morning Dew</h3>
-                    <p class="text-sm text-gray-500 mt-1">Pierścionek z perłą i cyrkoniami</p>
-                    <div class="mt-4 text-xl font-semibold">198 zł</div>
-                </div>
-            </div>
-
+            <!-- Dodaj więcej produktów w ten sam sposób -->
         </div>
-    </section>
+    </main>
 
-    <footer class="bg-gray-900 text-gray-400 py-12 text-center">
-        <p class="text-sm">© 2026 Sklep Galeria • Biżuteria z duszą</p>
-    </footer>
-
+    <script>
+        // Zabawny koczkodan
+        document.querySelector('.koczkodan').addEventListener('click', () => {
+            const messages = [
+                "uff... ooooo aaaaa...",
+                "ja nie wiem... 🐵",
+                "wypuszczone uff z ust powietrza...",
+                "koczkodan approved 👍"
+            ];
+            const random = messages[Math.floor(Math.random() * messages.length)];
+            alert(random);
+        });
+    </script>
 </body>
 </html>
