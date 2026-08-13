@@ -1,99 +1,46 @@
+HTML
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Starting Page</title>
-    <style>
-        /* Basic reset and font styling */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
-        }
-
-        /* Navigation Menu Styles */
-        nav {
-            background-color: #2c3e50;
-            padding: 1rem;
-        }
-
-        nav ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 10px 15px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-
-        nav a:hover {
-            background-color: #34495e;
-        }
-
-        /* Main Content Styles */
-        main {
-            text-align: center;
-            padding: 50px 20px;
-        }
-
-        /* Image Display Section */
-        #image-viewer {
-            margin-top: 40px;
-            padding: 20px;
-            display: none; /* Hidden by default */
-        }
-
-        /* CSS trick to show the image when the link is clicked */
-        #image-viewer:target {
-            display: block; 
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kolekcja DVD - Galeria</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Biblioteka Fancybox do powiększania zdjęć po kliknięciu -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css"/>
 </head>
 <body>
-
-    <!-- Navigation Menu -->
+  <header>
+    <h1>Kolekcja Filmów DVD (98 szt.)</h1>
     <nav>
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <!-- This link targets the ID of the image container below -->
-            <li><a href="#image-viewer">View Image</a></li>
-        </ul>
+      <a href="index.html" class="active">Galeria</a> | 
+      <a href="cennik.html">Spis i Ewidencja</a>
     </nav>
+  </header>
 
-    <!-- Main Content -->
-    <main>
-        <h1>Welcome to the Starting Page</h1>
-        <p>Use the menu above to navigate. Click "View Image" to see the picture.</p>
+  <main>
+    <div id="gallery" class="grid-container"></div>
+  </main>
 
-        <!-- Hidden Image Container (Revealed when targeted) -->
-        <div id="image-viewer">
-            <h2>Here is your image!</h2>
-            <!-- You can replace this src with your own image URL or local file path -->
-            <img src="https://picsum.photos/600/400" alt="A randomly generated placeholder image">
-            <br><br>
-            <a href="#">Close Image</a>
-        </div>
-    </main>
-
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+  <script>
+    fetch('data.json')
+      .then(response => response.json())
+      .then(data => {
+        const gallery = document.getElementById('gallery');
+        data.forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.innerHTML = `
+            <a href="DVD/${item.img}" data-fancybox="gallery" data-caption="${item.title} (${item.gbp} / ${item.pln})">
+              <img src="ico/${item.thumb}" alt="${item.title}" loading="lazy">
+            </a>
+            <p>${item.title}</p>
+          `;
+          gallery.appendChild(card);
+        });
+        Fancybox.bind("[data-fancybox]", {});
+      });
+  </script>
 </body>
 </html>
