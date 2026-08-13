@@ -1,1 +1,63 @@
+HTML
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ewidencja DVD</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Ewidencja i Cennik DVD</h1>
+    <nav>
+      <a href="index.html">Galeria</a> | 
+      <a href="cennik.html" class="active">Spis i Ewidencja</a>
+    </nav>
+  </header>
 
+  <main>
+    <section class="summary">
+      <h3>Podsumowanie zakupu</h3>
+      <p>Data zakupu: <strong>12-Aug / 12-Sie</strong></p>
+      <p>Łączna kwota zakupu: <strong>£10.00 / 50.40 zł</strong></p>
+    </section>
+
+    <table id="dvd-table">
+      <thead>
+        <tr>
+          <th>Lp.</th>
+          <th>Miniatura</th>
+          <th>Tytuł</th>
+          <th>Cena GBP</th>
+          <th>Cena PLN</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </main>
+
+  <script>
+    fetch('data.json')
+      .then(res => res.json())
+      .then(data => {
+        const tbody = document.querySelector('#dvd-table tbody');
+        data.forEach(item => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${item.id}</td>
+            <td>
+              <a href="DVD/${item.img}" target="_blank">
+                <img src="ico/${item.thumb}" class="table-thumb" alt="">
+              </a>
+            </td>
+            <td>${item.title}</td>
+            <td>${item.gbp}</td>
+            <td>${item.pln}</td>
+          `;
+          tbody.appendChild(row);
+        });
+      });
+  </script>
+</body>
+</html>
